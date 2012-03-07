@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../test_helper'
 
 class ContextsTest < Test::Unit::TestCase
 
@@ -63,6 +63,26 @@ class ContextsTest < Test::Unit::TestCase
     it "isn't affected by befores from other contexts" do
       assert @b
       assert @a.nil?
+    end
+  end
+
+  a "Context with more contexts within it" do
+    before do
+      @a = 1
+    end
+
+    it "doesn't execute befores in the nested contexts" do
+      assert_nil @b
+    end
+
+    that "has an inner context" do
+      before do
+        @b = 13
+      end
+
+      it "needs a test to trigger the error" do
+        assert true
+      end
     end
   end
 
